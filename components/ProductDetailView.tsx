@@ -88,67 +88,88 @@ const ProductDetailView: React.FC<ProductDetailViewProps> = ({ product, onBack }
 
                 {/* Right Column - AI Tools */}
                 <div className="space-y-6">
+                    {/* Marketing Copy Card */}
                     <div className="bg-white p-6 rounded-lg shadow-md">
-                        <div className="flex items-center">
-                            <BotIcon className="w-6 h-6 text-primary-600 mr-3" />
-                            <h3 className="text-lg font-bold text-slate-800">AI Content Tools</h3>
-                        </div>
-                        <div className="mt-4 space-y-4">
-                           <button onClick={handleGenerateCopy} disabled={isGeneratingCopy} className="w-full flex justify-center items-center gap-2 px-4 py-2 text-sm font-medium text-white bg-primary-600 border border-transparent rounded-md shadow-sm hover:bg-primary-700 disabled:bg-primary-300">
-                                {isGeneratingCopy ? <LoadingSpinner/> : <SparklesIcon className="w-4 h-4" />}
-                                {isGeneratingCopy ? 'Generating Copy...' : 'Generate Marketing Copy'}
-                           </button>
-                           <button onClick={handleAnalyzeContent} disabled={isAnalyzing} className="w-full flex justify-center items-center gap-2 px-4 py-2 text-sm font-medium text-primary-700 bg-primary-100 border border-transparent rounded-md hover:bg-primary-200 disabled:bg-primary-50">
-                                {isAnalyzing ? <LoadingSpinner/> : <SparklesIcon className="w-4 h-4" />}
-                                {isAnalyzing ? 'Analyzing...' : 'Analyze Description'}
-                           </button>
+                        <h3 className="text-lg font-bold text-slate-800">Marketing Copy</h3>
+                        <div className="mt-4">
+                            {isGeneratingCopy ? (
+                                <div className="flex justify-center items-center py-10">
+                                    <div className="text-center">
+                                        <LoadingSpinner />
+                                        <p className="text-sm text-slate-500 mt-2">Generating copy...</p>
+                                    </div>
+                                </div>
+                            ) : marketingCopy ? (
+                                <div className="animate-fade-in space-y-4 text-sm">
+                                    <div>
+                                        <p className="font-semibold text-slate-600">Ad Headline:</p>
+                                        <p className="p-2 bg-slate-50 rounded mt-1 text-slate-800">{marketingCopy.adHeadline}</p>
+                                    </div>
+                                    <div>
+                                        <p className="font-semibold text-slate-600">Ad Body:</p>
+                                        <p className="p-2 bg-slate-50 rounded mt-1 text-slate-800">{marketingCopy.adBody}</p>
+                                    </div>
+                                    <div>
+                                        <p className="font-semibold text-slate-600">Social Media Post:</p>
+                                        <p className="p-2 bg-slate-50 rounded mt-1 text-slate-800 whitespace-pre-wrap">{marketingCopy.socialMediaPost}</p>
+                                    </div>
+                                </div>
+                            ) : (
+                                <div className="text-center py-4">
+                                    <SparklesIcon className="w-8 h-8 mx-auto text-slate-400" />
+                                    <p className="mt-2 text-sm text-slate-500">Need inspiration? Generate ad headlines, body copy, and social media posts for your product.</p>
+                                    <button onClick={handleGenerateCopy} disabled={isGeneratingCopy} className="mt-4 inline-flex items-center gap-2 px-4 py-2 text-sm font-medium text-white bg-primary-600 border border-transparent rounded-md shadow-sm hover:bg-primary-700 disabled:bg-primary-300">
+                                        <SparklesIcon className="w-4 h-4" />
+                                        Generate with AI
+                                    </button>
+                                </div>
+                            )}
                         </div>
                     </div>
 
-                    {marketingCopy && (
-                        <div className="bg-white p-6 rounded-lg shadow-md animate-fade-in">
-                            <h4 className="font-bold text-slate-700">Generated Marketing Copy</h4>
-                            <div className="mt-4 space-y-4 text-sm">
-                                <div>
-                                    <p className="font-semibold text-slate-600">Ad Headline:</p>
-                                    <p className="p-2 bg-slate-50 rounded mt-1 text-slate-800">{marketingCopy.adHeadline}</p>
-                                </div>
-                                <div>
-                                    <p className="font-semibold text-slate-600">Ad Body:</p>
-                                    <p className="p-2 bg-slate-50 rounded mt-1 text-slate-800">{marketingCopy.adBody}</p>
-                                </div>
-                                <div>
-                                    <p className="font-semibold text-slate-600">Social Media Post:</p>
-                                    <p className="p-2 bg-slate-50 rounded mt-1 text-slate-800 whitespace-pre-wrap">{marketingCopy.socialMediaPost}</p>
-                                </div>
-                            </div>
-                        </div>
-                    )}
-                    
-                    {contentAnalysis && (
-                        <div className="bg-white p-6 rounded-lg shadow-md animate-fade-in">
-                            <h4 className="font-bold text-slate-700">Description Analysis</h4>
-                             <div className="mt-4 space-y-4 text-sm">
-                                <div>
-                                    <p className="font-semibold text-slate-600">Tone:</p>
-                                    <p className="p-2 bg-slate-50 rounded mt-1 text-slate-800">{contentAnalysis.tone}</p>
-                                </div>
-                                <div>
-                                    <p className="font-semibold text-slate-600">Clarity Score:</p>
-                                    <div className="w-full bg-slate-200 rounded-full h-2.5 mt-1">
-                                        <div className="bg-primary-600 h-2.5 rounded-full" style={{ width: `${contentAnalysis.clarityScore * 10}%` }}></div>
+                    {/* Description Analysis Card */}
+                    <div className="bg-white p-6 rounded-lg shadow-md">
+                        <h3 className="text-lg font-bold text-slate-800">Description Analysis</h3>
+                        <div className="mt-4">
+                            {isAnalyzing ? (
+                                <div className="flex justify-center items-center py-10">
+                                    <div className="text-center">
+                                        <LoadingSpinner />
+                                        <p className="text-sm text-slate-500 mt-2">Analyzing content...</p>
                                     </div>
-                                    <p className="text-right text-xs font-bold text-primary-600">{contentAnalysis.clarityScore}/10</p>
                                 </div>
-                                <div>
-                                    <p className="font-semibold text-slate-600">Suggestions:</p>
-                                    <ul className="list-disc list-inside mt-1 space-y-1 text-slate-800">
-                                        {contentAnalysis.suggestions.map((s, i) => <li key={i}>{s}</li>)}
-                                    </ul>
+                            ) : contentAnalysis ? (
+                                <div className="animate-fade-in space-y-4 text-sm">
+                                    <div>
+                                        <p className="font-semibold text-slate-600">Tone:</p>
+                                        <p className="p-2 bg-slate-50 rounded mt-1 text-slate-800">{contentAnalysis.tone}</p>
+                                    </div>
+                                    <div>
+                                        <p className="font-semibold text-slate-600">Clarity Score:</p>
+                                        <div className="w-full bg-slate-200 rounded-full h-2.5 mt-1">
+                                            <div className="bg-primary-600 h-2.5 rounded-full" style={{ width: `${contentAnalysis.clarityScore * 10}%` }}></div>
+                                        </div>
+                                        <p className="text-right text-xs font-bold text-primary-600">{contentAnalysis.clarityScore}/10</p>
+                                    </div>
+                                    <div>
+                                        <p className="font-semibold text-slate-600">Suggestions:</p>
+                                        <ul className="list-disc list-inside mt-1 space-y-1 text-slate-800">
+                                            {contentAnalysis.suggestions.map((s, i) => <li key={i}>{s}</li>)}
+                                        </ul>
+                                    </div>
                                 </div>
-                            </div>
+                            ) : (
+                                <div className="text-center py-4">
+                                    <BotIcon className="w-8 h-8 mx-auto text-slate-400" />
+                                    <p className="mt-2 text-sm text-slate-500">Get AI-powered feedback on your description's tone and clarity, with suggestions for improvement.</p>
+                                    <button onClick={handleAnalyzeContent} disabled={isAnalyzing} className="mt-4 inline-flex items-center gap-2 px-4 py-2 text-sm font-medium text-primary-700 bg-primary-100 border border-transparent rounded-md hover:bg-primary-200 disabled:bg-primary-50">
+                                        <SparklesIcon className="w-4 h-4" />
+                                        Analyze with AI
+                                    </button>
+                                </div>
+                            )}
                         </div>
-                    )}
+                    </div>
                 </div>
             </div>
         </div>
